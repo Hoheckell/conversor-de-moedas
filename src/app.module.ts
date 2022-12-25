@@ -1,19 +1,45 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { auth } from './modules/auth/middlewares/auth.middleware';
+import { AuthService } from './modules/auth/services';
 import { User } from './modules/user/entities';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { UserService } from './modules/user/services';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'conversor.db',
       entities: [User],
       synchronize: true,
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService, UserService, JwtService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(auth)
+      .exclude(
+        { path: '/user/signin', method: RequestMethod.POST },
+        { path: '/user/signup', method: RequestMethod.POST },
+        { path: '/health', method: RequestMethod.GET },
+        { path: '/routes', method: RequestMethod.GET },
+      )
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
