@@ -30,3 +30,8 @@ export async function auth(req, res, next) {
     throw e;
   }
 }
+export interface IAuthMiddlewareUser extends Request {
+  user: {
+    username: string;
+  };
+}

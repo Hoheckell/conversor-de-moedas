@@ -14,6 +14,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { UserService } from './modules/user/services';
 import { JwtService } from '@nestjs/jwt';
+import { ConversorModule } from './modules/conversor/conversor.module';
+import { Conversion } from './modules/conversor/entities';
 
 @Module({
   imports: [
@@ -21,11 +23,12 @@ import { JwtService } from '@nestjs/jwt';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'conversor.db',
-      entities: [User],
+      entities: [User, Conversion],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
+    ConversorModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, UserService, JwtService],
@@ -39,6 +42,7 @@ export class AppModule implements NestModule {
         { path: '/user/signup', method: RequestMethod.POST },
         { path: '/health', method: RequestMethod.GET },
         { path: '/routes', method: RequestMethod.GET },
+        { path: '/api-docs', method: RequestMethod.GET },
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }

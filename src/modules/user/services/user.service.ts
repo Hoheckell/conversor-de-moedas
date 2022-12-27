@@ -5,6 +5,7 @@ import { UserDto } from '../dto/user.dto';
 import { UserUpdateDto } from '../dto/update-user.dto';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { PaginatedListDto } from '../dto/paginated-list.dto';
 
 @Injectable()
 export class UserService {
@@ -30,8 +31,11 @@ export class UserService {
     return await this.userRepository.findOne({ where: { id: userId } });
   }
 
-  async list(): Promise<Array<User>> {
-    return await this.userRepository.find();
+  async list(paginate: PaginatedListDto): Promise<UserDto[]> {
+    return await this.userRepository.find({
+      take: paginate.limit,
+      skip: paginate.offset,
+    });
   }
 
   async update(id: number, userdto: UserUpdateDto): Promise<void> {

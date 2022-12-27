@@ -6,20 +6,31 @@ import {
   UseGuards,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBody,
+  ApiResponse,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { AuthLoginDto } from 'src/modules/auth/dto/auth-login.dto';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { AuthService } from 'src/modules/auth/services';
+import { PaginatedListDto } from '../dto/paginated-list.dto';
 import { UserDto } from '../dto/user.dto';
 import { UserService } from '../services';
+import { Conversion } from '../../conversor/entities/conversion.entity';
+import { ConversorService } from '../../conversor/services/conversor.service';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private authService: AuthService,
+    private readonly authService: AuthService,
+    private readonly conversorService: ConversorService,
   ) {}
 
   @ApiOperation({ description: 'Signin, get jwt' })
@@ -44,5 +55,28 @@ export class UserController {
   @Get(':id')
   async show(@Param('id') id: number) {
     return await this.userService.show(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ description: 'list users' })
+  @HttpCode(200)
+  @ApiQuery({ type: PaginatedListDto, required: false })
+  @ApiResponse({ description: 'List of Users' })
+  @Get()
+  async list(@Query() paginate: PaginatedListDto): Promise<UserDto[]> {
+    return await this.userService.list(paginate);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ description: `list user's tansactions` })
+  @HttpCode(200)
+  @ApiQuery({ type: PaginatedListDto, required: false })
+  @ApiResponse({ description: 'List of Transactions from user' })
+  @Get('transactions/:userid')
+  async transactions(
+    @Query() paginate: PaginatedListDto,
+    @Param('userid') userId: number,
+  ): Promise<Conversion[]> {
+    return await this.conversorService.list(paginate, userId);
   }
 }
