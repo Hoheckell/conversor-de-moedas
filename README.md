@@ -1,33 +1,36 @@
 # Conversor de moedas
-
+<strong>
 O APP Rodando pode ser testado em 
 http://www.gygaweb.com.br/api-docs/
-
-1 - Clonar do repositório 
+</strong>
+<ol>
+<li> - Clonar do repositório </li>
 <code> git clone git@bitbucket.org:recrutamento_jya_nodejs/recrutamento-conversor-nodejs-hoheckell.info_gmail.com.git </code>
 
-2 - Defina um arquivo na raiz do diretório chamado .env com os seguintes valores:
-    APP_PORT=3000
-    SWAGGER_ROUTE=api-docs
-    JWT_SECRET=XXXXX
-    SALT=00
-    API_KEY=XXXXXXX
-    API_CONVERSION_URL='https://api.apilayer.com/currency_data/convert?'
-    APP_ENV=DEV
+<li> - Defina um arquivo na raiz do diretório chamado .env com os seguintes valores:</li>
+    <code>
+    APP_PORT=3000<br/>
+    SWAGGER_ROUTE=api-docs<br/>
+    JWT_SECRET=XXXXX<br/>
+    SALT=00<br/>
+    API_KEY=XXXXXXX<br/>
+    API_CONVERSION_URL='https://api.apilayer.com/currency_data/convert?'<br/>
+    APP_ENV=DEV<br/>
+    </code>
 
-3 - Instalar as dependências
+<li> - Instalar as dependências</li>
 <code>npm install</code>
 
-4 - Rodar a aplicação
+<li> - Rodar a aplicação</li>
 <code>npm run start:dev</code>
 
-5 - Acessar a documentação para visualizar os endpoints
+<li> - Acessar a documentação para visualizar os endpoints</li>
 http://localhost:${APP_PORT}/api-docs
 
-6 - Para rodar via docker na raiz do diretório, após o docker instalado na maquina execute os comandos:
+<li> - Para rodar via docker na raiz do diretório, após o docker instalado na maquina execute os comandos:</li>
 <code>docker-composer up -d</code>
 Volte ao passo 5
-
+</ol>
 Obs. O Aqruivo src/modules/conversor/allowed-currencies.ts possui todas siglas de moedas que permitiremos as conversões
 
 PROPÓSITO: 
