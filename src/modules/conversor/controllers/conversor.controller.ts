@@ -9,9 +9,9 @@ import {
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConversorService } from '../services';
 import { CreateConversionDto } from '../dto/create-conversion.dto';
-import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/modules/auth/guards';
 import { IAuthMiddlewareUser } from 'src/modules/auth/middlewares/auth.middleware';
-import { Conversion } from '../entities/conversion.entity';
+import { ResponseConversionDto } from '../dto/response-conversion.dto';
 
 @ApiTags('conversor')
 @Controller('conversor')
@@ -23,11 +23,14 @@ export class ConversorController {
   @ApiOperation({ description: 'Currency Conversion' })
   @HttpCode(200)
   @ApiBody({ type: CreateConversionDto, required: true })
-  @ApiResponse({ description: 'Conversion result' })
+  @ApiResponse({
+    description: 'Conversion result',
+    type: ResponseConversionDto,
+  })
   async conversion(
     @Body() conversion: CreateConversionDto,
     @Req() req: IAuthMiddlewareUser,
-  ): Promise<Conversion> {
+  ): Promise<ResponseConversionDto> {
     const { username } = req.user;
     return await this.conversionService.convertCurrency(conversion, username);
   }

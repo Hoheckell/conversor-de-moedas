@@ -1,8 +1,6 @@
 import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
-import { Currency } from '../enums/currence';
-
 export class CreateConversionDto {
   @ApiProperty()
   @Optional()
@@ -10,7 +8,7 @@ export class CreateConversionDto {
 
   @ApiProperty()
   @IsString()
-  currencyFrom: Currency;
+  currencyFrom: string;
 
   @ApiProperty()
   @IsNumber()
@@ -18,7 +16,7 @@ export class CreateConversionDto {
 
   @ApiProperty()
   @IsString()
-  currencyTo: Currency;
+  currencyTo: string;
 
   @ApiProperty()
   @Optional()

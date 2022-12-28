@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { Currency } from '../enums/currence';
 
 @Entity()
 export class Conversion {
@@ -10,13 +9,13 @@ export class Conversion {
   userId: number;
 
   @Column()
-  currencyFrom: Currency;
+  currencyFrom: string;
 
   @Column()
   currencyFromValue: number;
 
   @Column()
-  currencyTo: Currency;
+  currencyTo: string;
 
   @Column()
   quote: number;

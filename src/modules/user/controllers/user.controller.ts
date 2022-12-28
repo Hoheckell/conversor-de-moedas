@@ -23,6 +23,7 @@ import { UserDto } from '../dto/user.dto';
 import { UserService } from '../services';
 import { Conversion } from '../../conversor/entities/conversion.entity';
 import { ConversorService } from '../../conversor/services/conversor.service';
+import { User } from '../entities/user.entity';
 
 @ApiTags('user')
 @Controller('user')
@@ -33,10 +34,10 @@ export class UserController {
     private readonly conversorService: ConversorService,
   ) {}
 
-  @ApiOperation({ description: 'Signin, get jwt' })
+  @ApiOperation({ description: 'Signup, create an user' })
   @HttpCode(200)
   @ApiBody({ type: UserDto, required: true })
-  @ApiResponse({ description: 'Bearer Token' })
+  @ApiResponse({ description: 'Create an user', type: User })
   @Post('signup')
   async signup(@Body() userdto: UserDto) {
     return await this.userService.signup(userdto);

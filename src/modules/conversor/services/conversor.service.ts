@@ -5,8 +5,11 @@ import { Conversion } from '../entities/conversion.entity';
 import { CreateConversionDto } from '../dto/create-conversion.dto';
 import axios from 'axios';
 import * as moment from 'moment';
-import { UserService } from 'src/modules/user/services';
 import { PaginatedListDto } from '../../user/dto/paginated-list.dto';
+import { Currencies } from '../allowed-currencies';
+import { ResponseConversionDto } from '../dto/response-conversion.dto';
+import { UserService } from 'src/modules/user/services';
+import { User } from 'src/modules/user/entities';
 
 @Injectable()
 export class ConversorService {
@@ -22,37 +25,21 @@ export class ConversorService {
     return await this.conversionRepository.save(newConversion);
   }
 
-  async convertCurrency(conversion: CreateConversionDto, username: string) {
+  async convertCurrency(
+    conversion: CreateConversionDto,
+    username: string,
+  ): Promise<ResponseConversionDto> {
     const user = await this.userService.findOne(username);
     if (!user?.id) {
       throw new HttpException('User not found', 400);
     }
-    let result, response;
-    const url = `${process.env.API_CONVERSION_URL}to=${conversion.currencyTo}&from=${conversion.currencyFrom}&amount=${conversion.currencyFromValue}`;
-    await axios
-      .get(url, {
-        headers: {
-          apikey: process.env.API_KEY,
-        },
-      })
-      .then(async (r) => {
-        if (r?.data?.success) {
-          const newConversion: CreateConversionDto = { ...conversion };
-          newConversion.quote = r.data.info.quote;
-          newConversion.timestamp = moment
-            .utc(moment(r.data.info.timestamp))
-            .format();
-          result = r.data.result;
-          newConversion.userId = user.id;
-          response = await this.create(newConversion);
-        }
-      })
-      .catch((err) => {
-        if (err?.response)
-          throw new HttpException(err.response.data, err.response.status);
-        throw new Error(err);
-      });
-    return { ...response, result };
+    if (
+      !Currencies.includes(conversion.currencyTo) ||
+      !Currencies.includes(conversion.currencyFrom)
+    ) {
+      throw new HttpException('Currency not allowed', 400);
+    }
+    return await this.callService(conversion, user);
   }
 
   async list(
@@ -64,5 +51,32 @@ export class ConversorService {
       take: paginate.limit,
       skip: paginate.offset,
     });
+  }
+
+  async callService(
+    conversion: CreateConversionDto,
+    user: User,
+  ): Promise<ResponseConversionDto> {
+    let result, response;
+    const url = `${process.env.API_CONVERSION_URL}to=${conversion.currencyTo}&from=${conversion.currencyFrom}&amount=${conversion.currencyFromValue}`;
+    const options = { headers: { apikey: process.env.API_KEY } };
+    try {
+      const { data } = await axios.get(url, options);
+      if (data) {
+        const newConversion: CreateConversionDto = { ...conversion };
+        newConversion.quote = data.info.quote;
+        newConversion.timestamp = moment
+          .utc(moment.unix(data.info.timestamp).local().format())
+          .format();
+        result = data.result;
+        newConversion.userId = user.id;
+        response = await this.create(newConversion);
+      }
+      return { ...response, result };
+    } catch (e) {
+      if (e?.response)
+        throw new HttpException(e.response.data, e.response.status);
+      throw new Error(e);
+    }
   }
 }
