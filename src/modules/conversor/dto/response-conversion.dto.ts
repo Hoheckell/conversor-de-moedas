@@ -42,6 +42,6 @@ export class ResponseConversionDto {
   @IsNumber()
   quote?: number;
 
-  @ApiProperty({ description: 'Returned date of the query', type: 'date' })
+  @ApiProperty({ description: 'Returned date of the query', type: 'string' })
   timestamp?: string;
 }
