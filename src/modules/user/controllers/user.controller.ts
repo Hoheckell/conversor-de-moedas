@@ -37,7 +37,7 @@ export class UserController {
   @ApiOperation({ description: 'Signup, create an user' })
   @HttpCode(200)
   @ApiBody({ type: UserDto, required: true })
-  @ApiResponse({ description: 'Create an user', type: User })
+  @ApiResponse({ description: 'Create an user', type: UserDto })
   @Post('signup')
   async signup(@Body() userdto: UserDto) {
     return await this.userService.signup(userdto);

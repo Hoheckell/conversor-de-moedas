@@ -1,4 +1,5 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, HttpCode, Render, Req } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Router, Request } from 'express';
 import { AppService } from './app.service';
 
@@ -25,5 +26,14 @@ export class AppController {
         })
         .filter((item) => item !== undefined),
     };
+  }
+
+  @Get()
+  @HttpCode(200)
+  @ApiOperation({ description: 'Instructions' })
+  @ApiResponse({ description: 'Instructions View' })
+  @Render('index')
+  async index() {
+    return { message: 'Hello world!' };
   }
 }
