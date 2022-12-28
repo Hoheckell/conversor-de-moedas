@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ./
+    environment:
+      - APP_PORT:${APP_PORT}
+      - SWAGGER_ROUTE:${SWAGGER_ROUTE}
+      - JWT_SECRET:${JWT_SECRET}
+      - SALT:${SALT}
+      - API_KEY:${API_KEY}
+      - API_CONVERSION_URL:${API_CONVERSION_URL}
+    env_file:
+      - .env
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - mynet
+networks:
+  mynet:

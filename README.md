@@ -1,50 +1,51 @@
 # Conversor de moedas
+<strong>
+O APP Rodando pode ser testado em 
+http://www.gygaweb.com.br/api-docs/
+</strong>
+<ol>
+<li> - Clonar do repositÃ³rio </li>
+<code> git clone git@bitbucket.org:recrutamento_jya_nodejs/recrutamento-conversor-nodejs-hoheckell.info_gmail.com.git </code>
 
-Você deverá implementar uma API Rest que seja capaz de realizar a conversão entre duas moedas
-utilizando taxas de conversões atualizadas de um serviço externo.
+<li> - Defina um arquivo na raiz do diretÃ³rio chamado .env com os seguintes valores:</li>
+    <code>
+    APP_PORT=3000<br/>
+    SWAGGER_ROUTE=api-docs<br/>
+    JWT_SECRET=XXXXX<br/>
+    SALT=00<br/>
+    API_KEY=XXXXXXX<br/>
+    API_CONVERSION_URL='https://api.apilayer.com/currency_data/convert?'<br/>
+    APP_ENV=DEV<br/>
+    </code>
 
-Para realização da conversão é necessário o ID do usuário que deseja realizar a conversão.
+<li> - Instalar as dependÃªncias</li>
+<code>npm install</code>
 
-A API deverá registrar cada transação de conversão com todas as informações relacionadas e também
-disponibilizar um endpoint para consulta das transações realizadas por um usuário.
+<li> - Rodar a aplicaÃ§Ã£o</li>
+<code>npm run start:dev</code>
 
-O projeto deverá ser feito em Node.js com TypeScript.
+<li> - Acessar a documentaÃ§Ã£o para visualizar os endpoints</li>
+http://localhost:${APP_PORT}/api-docs
 
-1. Deve ser possível realizar a conversão entre 4 moedas no mínimo (BRL, USD, EUR, JPY);
-1. As taxas de conversão devem ser obtidas de [https://api.exchangeratesapi.io/latest?base=USD];
-1. As transações de conversão devem ser persistidas no banco de dados (embedded) contendo:
-    * ID do usuário;
-    * Moeda origem;
-    * Valor origem;
-    * Moeda destino;
-    * Taxa de conversão utilizada;
-    * Data/Hora UTC;
-1. Uma transação com sucesso deve retornar:
-    * ID da transação
-    * ID do usuário;
-    * Moeda origem;
-    * Valor origem;
-    * Moeda destino;
-    * Valor destino;
-    * Taxa de conversão utilizada;
-    * Data/Hora UTC;
-1. Uma transação com falha conhecida deve retornar um erro HTTP 400 com a descrição da falha;
-1. Deverá existir um endpoint para listagem de todas as transações realizadas por usuário;
-1. Deve haver uma cobertura satisfatória de testes;
-1. Deve-se adicionar a esse arquivo explicações sobre como rodar a aplicação, e uma apresentação sobre o
-projeto: propósito, features, motivação das principais escolhas de tecnologias, e separação das camadas;
-1. Todo o código deve ser em inglês;
-1. Disponibilizar o código apenas nesse repositório, sem nenhuma cópia pública, para evitar plágio;
+<li> - Para rodar via docker na raiz do diretÃ³rio, apÃ³s o docker instalado na maquina execute os comandos:</li>
+<code>docker-composer up -d</code>
+Volte ao passo 5
+</ol>
+Obs. O Aqruivo src/modules/conversor/allowed-currencies.ts possui todas siglas de moedas que permitiremos as conversÃµes
 
-## Itens desejáveis
-* Logs
-* Tratamento de exceções
-* Documentação
-* Coesão de commits
-* Mensagens de commits claras
-* Configuração de lint
-* Testes unitários
-* Testes de integração
-* Documentação dos endpoints
-* Estar rodando e disponível (Ex: Heroku, ou similar)
-* CI/CD
+PROPÃ“SITO: 
+Permitir ao usuÃ¡rio Logado: 
+ - fazer a conversÃ£o de moedas 
+ - registrar as conversÃµes realizadas
+ - listar as conversÃµes realizadas
+
+TECNOLOGIAS
+ - NestJS
+ Framework que aproveita muito bem o typescript, com documentaÃ§Ã£o completa e boa curva de aprendizagem e de cÃ³digo aberto com muitos modulos especÃ­ficos, orientando a um boa arquitetura, fracamente acoplado e escalÃ¡vel.
+ - TypeOrm
+ ORM que suporta muitos tipos de bancos de dados diferentes, trabalha com typescript, curva de aprendizagem boa e suporta Promises.
+
+ CAMADAS
+ - SOLID/CLEAN CODE
+ Baseando me ao mÃ¡ximo nestes conceitos procurei separar baseado em entidades e suas funcionalidades separadas, deixando as regras de negÃ³cio na camada de serviÃ§os 
+
