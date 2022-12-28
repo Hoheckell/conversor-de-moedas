@@ -23,7 +23,6 @@ import { UserDto } from '../dto/user.dto';
 import { UserService } from '../services';
 import { Conversion } from '../../conversor/entities/conversion.entity';
 import { ConversorService } from '../../conversor/services/conversor.service';
-import { User } from '../entities/user.entity';
 
 @ApiTags('user')
 @Controller('user')
