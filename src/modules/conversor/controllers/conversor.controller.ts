@@ -20,7 +20,7 @@ export class ConversorController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiOperation({ description: 'Currency Conversion' })
+  @ApiOperation({ description: 'Currency Conversion BRL, USD, EUR, JPY' })
   @HttpCode(200)
   @ApiBody({ type: CreateConversionDto, required: true })
   @ApiResponse({

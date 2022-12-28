@@ -6,23 +6,35 @@ export class CreateConversionDto {
   @Optional()
   userId?: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Currency BRL | USD | EUR | JPY',
+    type: 'string',
+  })
   @IsString()
   currencyFrom: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Original amount for conversion',
+    type: 'number',
+  })
   @IsNumber()
   currencyFromValue: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Currency BRL | USD | EUR | JPY',
+    type: 'string',
+  })
   @IsString()
   currencyTo: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Returned value on destination currency',
+    type: 'number',
+  })
   @Optional()
   quote?: any;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Returned date of the query', type: 'date' })
   @Optional()
   timestamp?: string;
 }
