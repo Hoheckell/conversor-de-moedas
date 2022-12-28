@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/modules/user/services';
+import { User } from '../../user/entities/user.entity';
+import { AuthLoginDto } from '../dto/auth-login.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,15 +17,20 @@ export class AuthService {
     if (user && bcrypt.compareSync(user.password, pass)) {
       return user;
     }
-    return null;
+    return false;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
-      }),
-    };
+  async login(user: AuthLoginDto) {
+    const loggerUser = await this.validateUser(user.username, user.password);
+    if (loggerUser) {
+      const payload = { username: loggerUser.username, sub: loggerUser.id };
+      return {
+        access_token: this.jwtService.sign(payload, {
+          secret: process.env.JWT_SECRET,
+        }),
+      };
+    } else {
+      throw new HttpException('Access Denied', 403);
+    }
   }
 }
