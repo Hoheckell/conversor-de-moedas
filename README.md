@@ -1,5 +1,8 @@
 # Conversor de moedas
 
+O APP Rodando pode ser testado em 
+http://www.gygaweb.com.br/api-docs/
+
 1 - Clonar do repositório 
 <code> git clone git@bitbucket.org:recrutamento_jya_nodejs/recrutamento-conversor-nodejs-hoheckell.info_gmail.com.git </code>
 
@@ -42,3 +45,4 @@ TECNOLOGIAS
  CAMADAS
  - SOLID/CLEAN CODE
  Baseando me ao máximo nestes conceitos procurei separar baseado em entidades e suas funcionalidades separadas, deixando as regras de negócio na camada de serviços 
+
