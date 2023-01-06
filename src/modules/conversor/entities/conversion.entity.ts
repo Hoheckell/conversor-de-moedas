@@ -5,21 +5,21 @@ export class Conversion {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'bigint', nullable: false })
   userId: number;
 
-  @Column()
+  @Column({ type: 'string', nullable: false })
   currencyFrom: string;
 
-  @Column()
+  @Column({ type: 'decimal', nullable: false })
   currencyFromValue: number;
 
-  @Column()
+  @Column({ type: 'string', nullable: false })
   currencyTo: string;
 
-  @Column()
+  @Column({ type: 'decimal', nullable: false })
   quote: number;
 
-  @Column()
+  @Column({ type: 'date', nullable: false })
   timestamp: Date;
 }

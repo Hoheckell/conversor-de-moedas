@@ -4,12 +4,14 @@ export class ResponseConversionDto {
   @ApiProperty({
     description: 'Returned id of the register',
     type: 'number',
+    required: true,
   })
   @IsNumber()
   id: number;
   @ApiProperty({
     description: 'Returned User id that requested',
     type: 'number',
+    required: true,
   })
   @IsNumber()
   userId: number;
@@ -17,6 +19,7 @@ export class ResponseConversionDto {
   @ApiProperty({
     description: 'Currency BRL | USD | EUR | JPY',
     type: 'string',
+    required: true,
   })
   @IsString()
   currencyFrom: string;
@@ -24,6 +27,7 @@ export class ResponseConversionDto {
   @ApiProperty({
     description: 'Original amount for conversion',
     type: 'number',
+    required: true,
   })
   @IsNumber()
   currencyFromValue: number;
@@ -31,6 +35,7 @@ export class ResponseConversionDto {
   @ApiProperty({
     description: 'Currency BRL | USD | EUR | JPY',
     type: 'string',
+    required: true,
   })
   @IsString()
   currencyTo: string;
@@ -38,10 +43,15 @@ export class ResponseConversionDto {
   @ApiProperty({
     description: 'Returned value on destination currency',
     type: 'number',
+    required: true,
   })
   @IsNumber()
-  quote?: number;
+  quote: number;
 
-  @ApiProperty({ description: 'Returned date of the query', type: 'string' })
-  timestamp?: string;
+  @ApiProperty({
+    description: 'Returned date of the query',
+    type: 'string',
+    required: true,
+  })
+  timestamp: string;
 }
