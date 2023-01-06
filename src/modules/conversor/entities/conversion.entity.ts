@@ -8,13 +8,13 @@ export class Conversion {
   @Column({ type: 'bigint', nullable: false })
   userId: number;
 
-  @Column({ type: 'string', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   currencyFrom: string;
 
   @Column({ type: 'decimal', nullable: false })
   currencyFromValue: number;
 
-  @Column({ type: 'string', nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   currencyTo: string;
 
   @Column({ type: 'decimal', nullable: false })
