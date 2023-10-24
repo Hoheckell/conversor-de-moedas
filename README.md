@@ -1,8 +1,4 @@
 # Conversor de moedas
-<strong>
-O APP Rodando pode ser testado em 
-http://www.gygaweb.com.br/api-docs/
-</strong>
 <ol>
 <li> - Clonar do repositório </li>
 <code> git clone git@bitbucket.org:recrutamento_jya_nodejs/recrutamento-conversor-nodejs-hoheckell.info_gmail.com.git </code>
